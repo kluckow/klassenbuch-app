@@ -6,9 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,15 +36,13 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
-        private EditText editTextPasswort;
+    private EditText editTextPasswort;
     private Button buttonLogin;
-
-    // Verwendung im DEVICE (IP-Adresse anpassen !!!)
     private static final String URL_DB_VERBINDUNG = "http://hhbk.bplaced.net/login.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-    private static final String TAG_NACHNAME = "nachname";
+//    private static final String TAG_NACHNAME = "nachname";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,5 +228,5 @@ public class MainActivity extends AppCompatActivity {
             pDialog.dismiss();
         }
     }
-    
+
 }
