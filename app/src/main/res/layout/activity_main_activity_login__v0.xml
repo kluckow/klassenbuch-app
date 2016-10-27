@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+
+    <TextView android:id="@+id/TextViewUeberschrift" style="@style/TextStyleUeberschrift"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/login_titel" android:textColor="@android:color/holo_blue_dark"
+        android:textStyle="bold" />
+
+    <TextView android:id="@+id/textViewErlaeuterung" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@+id/TextViewUeberschrift"
+        android:text="@string/txt_Loginseite" />
+    <TextView android:id="@+id/textViewBenutzername" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@+id/textViewErlaeuterung"
+        android:text="@string/lbl_Benutzername" />
+
+    <EditText android:id="@+id/editTextBenutzername" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_below="@+id/textViewBenutzername"
+        android:inputType="text" />
+    <TextView android:id="@+id/textViewPasswort" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@+id/editTextBenutzername"
+        android:text="@string/lblPasswort" />
+
+    <EditText android:id="@+id/editTextPasswort" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_below="@+id/textViewPasswort"
+        android:inputType="textPassword" />
+
+    <CheckBox android:id="@+id/checkbox_local_login"
+        android:text="@string/checkbox_local_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPasswort"/>
+
+    <Button android:id="@+id/buttonLogin" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@+id/checkbox_local_login"
+        android:text="@string/btn_login" />
+
+</RelativeLayout>

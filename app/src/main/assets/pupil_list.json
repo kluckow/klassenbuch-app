@@ -1,0 +1,15 @@
+{
+  "klasse": {
+    "identifier": "FA31",
+    "pupils": [
+      {"id": 1, "lastname": "Mustermann", "firstname": "Max"},
+      {"id": 2, "lastname": "Beil", "firstname": "Timo"},
+      {"id": 3, "lastname": "Schuster", "firstname": "Peter"},
+      {"id": 4, "lastname": "Meier", "firstname": "Tina"},
+      {"id": 5, "lastname": "Schulz", "firstname": "Carla"},
+      {"id": 6, "lastname": "Derks", "firstname": "Susi"},
+      {"id": 7, "lastname": "Hansen", "firstname": "Udo"},
+      {"id": 8, "lastname": "Napp", "firstname": "Karl"}
+    ]
+  }
+}
