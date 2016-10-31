@@ -1,7 +1,5 @@
 package de.hhbk.app.b_login_v0;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -18,9 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 
 public class PupilListActivity extends AppCompatActivity {
@@ -77,22 +73,33 @@ public class PupilListActivity extends AppCompatActivity {
 
     private List<String> getPupilList() {
 
-        String json = loadJSONFromAssets();
-        List<Pupil> pupilList = convertJSON2PupilList(json);
+//        String json = loadJSONFromAssets();
+        String json = loadJSONFromRemoteDatabase();
+//        List<Pupil> pupilList = convertJSON2PupilList(json);
 
         List<String> pupilStringList = new ArrayList();
-        for (Pupil pupil: pupilList) {
-            pupilStringList.add(pupil.toString());
+//        for (Pupil pupil: pupilList) {
+//            pupilStringList.add(pupil.toString());
+//        }
+        for (int i = 0; i < 3; i++) {
+            pupilStringList.add(json);
         }
         return pupilStringList;
 
+    }
+
+    private String loadJSONFromRemoteDatabase() {
+
+        RequestHandler requestHandler = new RequestHandler();
+        return requestHandler.sendPostRequest(
+                "http://hhbk.bplaced.net/alleSchueler_v3.php ", null);
     }
 
     public List<Pupil> convertJSON2PupilList(String json) {
 
         List<Pupil> pupilList = new ArrayList();
         try {
-            JSONObject jsonData = new JSONObject(loadJSONFromAssets());
+            JSONObject jsonData = new JSONObject(json);
 
             // set klasse
             JSONObject jsonKlasse = jsonData.getJSONObject("klasse");

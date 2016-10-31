@@ -24,10 +24,12 @@ public class RequestHandler {
     //StringBuilder object to store the message retrieved from the server
     StringBuilder sb = new StringBuilder();
     try {
+        // TODO: check connection
         //Initializing Url
         url = new URL(requestURL);
         //Creating an httmlurl connection
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
         //Configuring connection properties
         conn.setReadTimeout(15000);
         conn.setConnectTimeout(15000);
@@ -58,7 +60,6 @@ public class RequestHandler {
                 sb.append(response);
             }
         }
-        // TODO: log string builder content
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,16 +82,16 @@ public class RequestHandler {
         }
         return sb.toString();
     }
-    public String sendGetRequestParam(String requestURL, String id){
+    public String sendGetRequestParam(String requestURL, String id) {
 
         StringBuilder sb = new StringBuilder();
         try {
-            URL url = new URL(requestURL+id);
+            URL url = new URL(requestURL + id);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             BufferedReader bufferedReader = new BufferedReader(new
                 InputStreamReader(con.getInputStream()));
             String s;
-            while((s=bufferedReader.readLine())!=null){
+            while((s = bufferedReader.readLine()) != null) {
                 sb.append(s+"\n");
             }
         } catch (Exception e) {
