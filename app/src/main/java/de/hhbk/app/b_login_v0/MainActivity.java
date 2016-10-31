@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                             + "Benutzer:Heinrich und Passwort:Hertz", Toast.LENGTH_LONG);
                     toastAusgabe.show();
                 }
-            }else {
+            } else {
                 new LoginService(getApplicationContext(),MainActivity.this).execute(username, passwort);
             }
 
@@ -122,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
             this.activity = activity;
         }
 
-        /* Dialog Verbindungsaufbau */
+        /**
+         * Dialog Verbindungsaufbau
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -131,13 +134,32 @@ public class MainActivity extends AppCompatActivity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
+
+            checkInternetConnection();
         }
+
+        /**
+         * Check internet connection and show a toast if
+         * connection does not exist.
+         */
+        private void checkInternetConnection() {
+
+            ConnectivityManager check = (ConnectivityManager)
+                    getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if (!check.getActiveNetworkInfo().isRoaming()) {
+                Toast.makeText(this.applicationContext, "Internet is not connected!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
         @Override
         protected JSONObject doInBackground(String... logindaten) {
             HttpURLConnection connection = null;
             JSONObject jObj = null;
             String json = "";
             this.params = logindaten;
+
 
             try {
                 URL _url = new URL(URL_DB_VERBINDUNG);
