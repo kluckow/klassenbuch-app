@@ -52,4 +52,9 @@ public class Schueler {
     public void setKlasse(String klasse) {
         this.klasse = klasse;
     }
+
+    @Override
+    public String toString() {
+        return this.id + ", " + this.lastname + ", " + this.firstname;
+    }
 }

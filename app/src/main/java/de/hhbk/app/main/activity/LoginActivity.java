@@ -31,8 +31,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import de.hhbk.app.main.R;
 import de.hhbk.app.main.constant.Config;
-import de.hhbk.app.b_login_v0.R;
 
 
 public class LoginActivity extends BaseActivity {

@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import de.hhbk.app.b_login_v0.R;
+import de.hhbk.app.main.R;
 
 
 public class HomeActivity extends BaseActivity {
@@ -26,7 +26,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_activity, menu);
+//        getMenuInflater().inflate(R.menu.menu_login_activity, menu);
         getMenuInflater().inflate(R.menu.menu_home_activity, menu);
         return true;
     }

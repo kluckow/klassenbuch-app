@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hhbk.app.main.constant.Config;
-import de.hhbk.app.b_login_v0.R;
+import de.hhbk.app.main.R;
 import de.hhbk.app.main.service.RequestHandler;
 import de.hhbk.app.main.entity.Schueler;
 
