@@ -1,4 +1,4 @@
-package de.hhbk.app.b_login_v0;
+package de.hhbk.app.main.constant;
 
 /**
  * Created by Markus on 03.11.2016.
@@ -13,7 +13,6 @@ public class Config {
 
     //PHP Skript Schluesselfelder
     public static final String KEY_SCHUELER_DATUM    = "datum";
-    public static final String KEY_SCHUELER_SID      = "sid";
 
     //JSON Tags
     public static final String TAG_JSON_ARRAY = "result";

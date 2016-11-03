@@ -1,4 +1,4 @@
-package de.hhbk.app.b_login_v0;
+package de.hhbk.app.main.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

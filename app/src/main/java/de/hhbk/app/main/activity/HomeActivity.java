@@ -1,19 +1,20 @@
-package de.hhbk.app.b_login_v0;
+package de.hhbk.app.main.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import de.hhbk.app.b_login_v0.R;
 
-public class HomeActivity extends AppCompatActivity {
+
+public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logged_in_activity);
+        setContentView(R.layout.home_activity);
         String username = getIntent().getStringExtra("username");
 
         String helloText = "Herzlich willkommen, " + username + "!";
@@ -25,8 +26,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity_login__v0, menu);
-        getMenuInflater().inflate(R.menu.menu_logged_in_activity, menu);
+        getMenuInflater().inflate(R.menu.menu_login_activity, menu);
+        getMenuInflater().inflate(R.menu.menu_home_activity, menu);
         return true;
     }
 
@@ -42,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.action_pupil_list:
-                Intent intent = new Intent(this, PupilListActivity.class);
+                Intent intent = new Intent(this, SchuelerlisteActivity.class);
                 this.startActivity(intent);
                 break;
         }

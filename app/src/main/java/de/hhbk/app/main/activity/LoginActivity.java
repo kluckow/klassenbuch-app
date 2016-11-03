@@ -1,4 +1,4 @@
-package de.hhbk.app.b_login_v0;
+package de.hhbk.app.main.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,8 +31,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import de.hhbk.app.main.constant.Config;
+import de.hhbk.app.b_login_v0.R;
 
-public class LoginActivity extends AppCompatActivity {
+
+public class LoginActivity extends BaseActivity {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
@@ -45,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_activity_login__v0);
+        setContentView(R.layout.login_activity);
         editTextUsername = (EditText) findViewById(R.id.editTextBenutzername);
         editTextPassword = (EditText) findViewById(R.id.editTextPasswort);
 
@@ -60,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity_login__v0, menu);
+        getMenuInflater().inflate(R.menu.menu_login_activity, menu);
         return true;
     }
 
@@ -76,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -88,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
             String passwort = editTextPassword.getText().toString();
 
             boolean localLogin = false;
-            // locallogin anhand der CHeckbox auslesen lassen
+
+            // local login check
             localLogin = ((CheckBox) findViewById(R.id.checkbox_local_login)).isChecked();
 
             if (localLogin){
@@ -106,8 +108,6 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 new LoginService(getApplicationContext(),LoginActivity.this).execute(username, passwort);
             }
-
-
         }
     }
 

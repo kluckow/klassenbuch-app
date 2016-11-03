@@ -1,9 +1,8 @@
-package de.hhbk.app.b_login_v0;
+package de.hhbk.app.main.activity;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +22,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hhbk.app.main.constant.Config;
+import de.hhbk.app.b_login_v0.R;
+import de.hhbk.app.main.service.RequestHandler;
+import de.hhbk.app.main.entity.Schueler;
 
-public class PupilListActivity extends AppCompatActivity {
+
+public class SchuelerlisteActivity extends BaseActivity {
 
     private ArrayAdapter<String> klassenAdapter;
     private ArrayAdapter<String> schuelerAdapter;
@@ -40,7 +44,7 @@ public class PupilListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pupil_list_activity);
+        setContentView(R.layout.schuelerliste_activity);
 
         spinner = (Spinner) findViewById(R.id.spinner_class);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -51,14 +55,13 @@ public class PupilListActivity extends AppCompatActivity {
 
                 String selectedKlasse = spinner.getItemAtPosition(pos).toString();
                 schuelerliste.clear();
-                Collection<Schueler> collection = new ArrayList<Schueler>(klassenListe.get(selectedKlasse));
+                Collection<Schueler> collection = new ArrayList<>(klassenListe.get(selectedKlasse));
                 schuelerliste.addAll(collection);
                 schuelerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                Log.e("test", "test");
                 // TODO Auto-generated method stub
             }
         });
@@ -69,7 +72,7 @@ public class PupilListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity_login__v0, menu);
+        getMenuInflater().inflate(R.menu.menu_login_activity, menu);
         return true;
     }
 
@@ -93,13 +96,6 @@ public class PupilListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO: use similar method for refreshing list
-//    private void updateKlasse(String klasse) {
-//        TextView textViewKlasse = (TextView) findViewById(R.id.TextViewKlasseValue);
-//        this.klasse = klasse;
-//        textViewKlasse.setText(this.klasse);
-//    }
-
     private void getJSON() {
         class GetJSON extends AsyncTask<Void, Void, String> {
 
@@ -108,16 +104,16 @@ public class PupilListActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(PupilListActivity.this, "Fetching Data", "Wait...", false, false);
+                loading = ProgressDialog.show(SchuelerlisteActivity.this, "Fetching Data", "Wait...", false, false);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
 
-                klassenAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, klassenNamen);
+                klassenAdapter = new ArrayAdapter(SchuelerlisteActivity.this, R.layout.schueler_item, klassenNamen);
                 spinner.setAdapter(klassenAdapter);
-                schuelerAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, schuelerliste);
+                schuelerAdapter = new ArrayAdapter(SchuelerlisteActivity.this, R.layout.schueler_item, schuelerliste);
                 schuelerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 listViewSchueler.setAdapter(schuelerAdapter);
 
@@ -155,7 +151,6 @@ public class PupilListActivity extends AppCompatActivity {
                             klassenNamen.add(neuerStudent.getKlasse());
                         }
                     }
-
                 } catch (JSONException e) {
                     Log.e("JSONException", e.getMessage());
                 }
@@ -165,4 +160,5 @@ public class PupilListActivity extends AppCompatActivity {
         GetJSON gj = new GetJSON();
         gj.execute();
     }
+
 }

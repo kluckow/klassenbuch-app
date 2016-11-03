@@ -1,4 +1,4 @@
-package de.hhbk.app.b_login_v0;
+package de.hhbk.app.main.entity;
 
 /**
  * Created by Markus on 27.10.2016.
@@ -51,9 +51,5 @@ public class Schueler {
 
     public void setKlasse(String klasse) {
         this.klasse = klasse;
-    }
-    @Override
-    public String toString() {
-        return Integer.toString(id) + ", " + lastname + ", " + firstname;
     }
 }
