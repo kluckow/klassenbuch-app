@@ -118,7 +118,7 @@ public class PupilListActivity extends AppCompatActivity {
                         neuerStudent.setLastname(schuelerobjekt.getString(Config.TAG_NAME));
                         neuerStudent.setKlasse(schuelerobjekt.getString(Config.TAG_KLASSE));
 
-                        if (!klassenliste.isEmpty() || klassenliste.contains(neuerStudent.getKlasse())) {
+                        if (klassenliste.contains(neuerStudent.getKlasse())) {
                             // do nothing
                         } else {
                             klassenliste.add(neuerStudent.getKlasse());
