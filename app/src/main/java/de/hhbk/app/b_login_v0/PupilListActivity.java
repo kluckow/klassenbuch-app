@@ -1,35 +1,45 @@
 package de.hhbk.app.b_login_v0;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class PupilListActivity extends AppCompatActivity {
 
+    private ArrayList<String> schuelerliste = new ArrayList<>();
+    private ListView listViewSchueler;
+    private Spinner spinnerClass;
+    private ArrayAdapter<String> schuelerAdapter;
     private String klasse;
 
-    private List<Pupil> pupilList;
+    private List<Pupil> pupilList = new ArrayList<>();
+    private List<String> klassenliste = new ArrayList<>();
+    private ArrayAdapter<String> klassenAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pupil_list_activity);
-        initData();
+
+        spinnerClass = (Spinner) findViewById(R.id.spinner_class);
+        listViewSchueler = (ListView) findViewById(R.id.pupil_list);
+        getJSON();
     }
 
     @Override
@@ -60,106 +70,71 @@ public class PupilListActivity extends AppCompatActivity {
                 toastAusgabe.show();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void initData() {
+    // TODO: use similar method for refreshing list
+//    private void updateKlasse(String klasse) {
+//        TextView textViewKlasse = (TextView) findViewById(R.id.TextViewKlasseValue);
+//        this.klasse = klasse;
+//        textViewKlasse.setText(this.klasse);
+//    }
 
-        ListView listView = (ListView) findViewById(R.id.pupil_list);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_pupil_item, getPupilList());
-        listView.setAdapter(adapter);
-    }
+    private void getJSON() {
+        class GetJSON extends AsyncTask<Void, Void, String> {
 
-    private List<String> getPupilList() {
+            ProgressDialog loading;
 
-//        String json = loadJSONFromAssets();
-        String json = loadJSONFromRemoteDatabase();
-//        List<Pupil> pupilList = convertJSON2PupilList(json);
-
-        List<String> pupilStringList = new ArrayList();
-//        for (Pupil pupil: pupilList) {
-//            pupilStringList.add(pupil.toString());
-//        }
-        for (int i = 0; i < 3; i++) {
-            pupilStringList.add(json);
-        }
-        return pupilStringList;
-
-    }
-
-    private String loadJSONFromRemoteDatabase() {
-
-        RequestHandler requestHandler = new RequestHandler();
-        return requestHandler.sendPostRequest(
-                "http://hhbk.bplaced.net/alleSchueler_v3.php ", null);
-    }
-
-    public List<Pupil> convertJSON2PupilList(String json) {
-
-        List<Pupil> pupilList = new ArrayList();
-        try {
-            JSONObject jsonData = new JSONObject(json);
-
-            // set klasse
-            JSONObject jsonKlasse = jsonData.getJSONObject("klasse");
-            klasse = jsonKlasse.getString("identifier");
-            updateKlasse(klasse);
-            // set pupil list
-            JSONArray jsonPupilArray = jsonKlasse.getJSONArray("pupils");
-            int id = 0;
-            String lastname = "";
-            String firstname = "";
-            for (int i = 0; i < jsonPupilArray.length(); i++) {
-
-                JSONObject jsonPupil = jsonPupilArray.getJSONObject(i);
-                if (jsonPupil.has("id")) {
-                    id = jsonPupil.getInt("id");
-                } else {
-                    id = 0;
-                }
-                if (jsonPupil.has("lastname")) {
-                    lastname = jsonPupil.getString("lastname");
-                } else {
-                    lastname = "kein Nachname";
-                }
-                if (jsonPupil.has("firstname")) {
-                    firstname = jsonPupil.getString("firstname");
-                } else {
-                    firstname = "kein Vorname";
-                }
-                pupilList.add(new Pupil(id, lastname, firstname, klasse));
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(PupilListActivity.this, "Fetching Data", "Wait...", false, false);
             }
 
-        } catch (JSONException e) {
-            // TODO: log somehow
-            e.printStackTrace();
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                schuelerAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, schuelerliste);
+                listViewSchueler.setAdapter(schuelerAdapter);
+                klassenAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, klassenliste);
+                spinnerClass.setAdapter(klassenAdapter);
+
+                loading.dismiss();
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                RequestHandler rh = new RequestHandler();
+                String s = rh.sendGetRequest("http://hhbk.bplaced.net/alleSchueler_v3.php");
+
+                try {
+                    JSONObject schueler = new JSONObject(s);
+                    JSONArray schuelerArray = schueler.getJSONArray(Config.TAG_JSON_ARRAY);
+                    for (int i = 0; i <= schuelerArray.length(); i++) {
+                        JSONObject schuelerobjekt = schuelerArray.getJSONObject(i);
+
+                        Pupil neuerSchueler = new Pupil();
+                        neuerSchueler.setId(schuelerobjekt.getInt(Config.TAG_SID));
+                        neuerSchueler.setFirstname(schuelerobjekt.getString(Config.TAG_VORNAME));
+                        neuerSchueler.setLastname(schuelerobjekt.getString(Config.TAG_NAME));
+                        neuerSchueler.setKlasse(schuelerobjekt.getString(Config.TAG_KLASSE));
+
+                        if (!klassenliste.isEmpty() || klassenliste.contains(neuerSchueler.getKlasse())) {
+                            // do nothing
+                        } else {
+                            klassenliste.add(neuerSchueler.getKlasse());
+                        }
+                        schuelerliste.add(neuerSchueler.toString());
+                    }
+
+                } catch (JSONException e) {
+                    Log.e("json exception", "Could not load schüler liste!");
+                }
+                return s;
+            }
         }
-        return pupilList;
+        GetJSON gj = new GetJSON();
+        gj.execute();
     }
-
-    private void updateKlasse(String klasse) {
-        TextView textViewKlasse = (TextView) findViewById(R.id.TextViewKlasseValue);
-        this.klasse = klasse;
-        textViewKlasse.setText(this.klasse);
-    }
-
-    public String loadJSONFromAssets() {
-        String json = null;
-        try {
-
-            InputStream is = getAssets().open("pupil_list.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            // TODO: log somehow
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
 }
