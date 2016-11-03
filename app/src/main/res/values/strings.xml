@@ -2,7 +2,7 @@
     <string name="app_name">Klassenbuch</string>
 
     <!-- Options Menu -->
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">App schliessen</string>
     <!-- Options Menu - only Home Activity -->
     <string name="show_pupil_list">Schülerliste anzeigen</string>
 

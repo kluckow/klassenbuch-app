@@ -74,7 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_close_app) {
+            finish();
             return true;
         }
 
@@ -135,23 +136,6 @@ public class LoginActivity extends AppCompatActivity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
-            checkInternetConnection();
-        }
-
-        /**
-         * Check internet connection and show a toast if
-         * connection does not exist.
-         */
-        private void checkInternetConnection() {
-
-            ConnectivityManager check = (ConnectivityManager)
-                    getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            if (!check.getActiveNetworkInfo().isRoaming()) {
-                Toast.makeText(this.applicationContext, "Internet is not connected!",
-                        Toast.LENGTH_SHORT).show();
-            }
         }
 
         @Override

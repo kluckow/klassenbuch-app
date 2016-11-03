@@ -38,8 +38,8 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_settings:
-                // do nothing for now
+            case R.id.action_close_app:
+                finish();
                 break;
             case R.id.action_pupil_list:
                 Intent intent = new Intent(this, PupilListActivity.class);

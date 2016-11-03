@@ -48,6 +48,7 @@ public class PupilListActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int pos, long arg3) {
+
                 String selectedKlasse = spinner.getItemAtPosition(pos).toString();
                 schuelerliste.clear();
                 Collection<Schueler> collection = new ArrayList<Schueler>(klassenListe.get(selectedKlasse));
@@ -68,7 +69,7 @@ public class PupilListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_logged_in_activity, menu);
+        getMenuInflater().inflate(R.menu.menu_main_activity_login__v0, menu);
         return true;
     }
 
@@ -79,13 +80,9 @@ public class PupilListActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         switch (id) {
-            case R.id.action_settings:
-                // do nothing for now
+            case R.id.action_close_app:
+                finish();
                 return true;
             case R.id.action_pupil_list:
                 // TODO: other action id
@@ -136,7 +133,7 @@ public class PupilListActivity extends AppCompatActivity {
                 try {
                     JSONObject schueler = new JSONObject(result);
                     JSONArray schuelerArray = schueler.getJSONArray(Config.TAG_JSON_ARRAY);
-                    for (int i = 0; i <= schuelerArray.length(); i++) {
+                    for (int i = 0; i < schuelerArray.length(); i++) {
                         JSONObject schuelerobjekt = schuelerArray.getJSONObject(i);
 
                         Schueler neuerStudent = new Schueler();
@@ -147,6 +144,7 @@ public class PupilListActivity extends AppCompatActivity {
 
                         ArrayList<Schueler> tmpSchuelerList = new ArrayList<>();
 
+                        // add student to class or create new class
                         if (klassenNamen.contains(neuerStudent.getKlasse())) {
                             tmpSchuelerList.addAll(klassenListe.get(neuerStudent.getKlasse()));
                             tmpSchuelerList.add(neuerStudent);
@@ -159,7 +157,7 @@ public class PupilListActivity extends AppCompatActivity {
                     }
 
                 } catch (JSONException e) {
-                    Log.e("json exception", "Could not load schueler liste!");
+                    Log.e("JSONException", e.getMessage());
                 }
                 return result;
             }
