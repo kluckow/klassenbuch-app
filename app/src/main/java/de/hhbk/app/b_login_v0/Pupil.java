@@ -10,6 +10,10 @@ public class Pupil {
     private String firstname;
     private String klasse;
 
+    public Pupil() {
+
+    }
+
     public Pupil(int id, String lastname, String firstname, String klasse) {
         this.id = id;
         this.lastname = lastname;
