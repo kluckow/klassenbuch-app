@@ -3,4 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context="HomeActivity">
     <item android:id="@+id/action_pupil_list" android:orderInCategory="90"
         android:title="@string/show_pupil_list" app:showAsAction="never" />
+    <item android:id="@+id/action_close_app" android:orderInCategory="100"
+        android:title="@string/action_settings" app:showAsAction="never" />
 </menu>
