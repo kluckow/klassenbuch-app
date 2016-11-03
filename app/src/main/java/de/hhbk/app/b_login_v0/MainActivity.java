@@ -37,22 +37,23 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
-    private EditText editTextPasswort;
+    private EditText editTextPassword;
     private Button buttonLogin;
     private static final String URL_DB_VERBINDUNG = "http://hhbk.bplaced.net/login.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-//    private static final String TAG_NACHNAME = "nachname";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_login__v0);
         editTextUsername = (EditText) findViewById(R.id.editTextBenutzername);
-        editTextPasswort = (EditText) findViewById(R.id.editTextPasswort);
+        editTextPassword = (EditText) findViewById(R.id.editTextPasswort);
 
         // insert credentials for testing
+        editTextUsername.setText("");
+        editTextPassword.setText("");
 
         buttonLogin = (Button)findViewById(R.id.buttonLogin);
         buttonLogin.setOnClickListener(new ClickListener());
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
 
             String username = editTextUsername.getText().toString();
-            String passwort = editTextPasswort.getText().toString();
+            String passwort = editTextPassword.getText().toString();
 
             boolean localLogin = false;
             // locallogin anhand der CHeckbox auslesen lassen
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(mainIntent);
                 } else {
                     editTextUsername.setText("");
-                    editTextPasswort.setText("");
+                    editTextPassword.setText("");
                     Toast toastAusgabe = Toast.makeText(v.getContext(), "Bitte verwenden Sie "
                             + "Benutzer:Heinrich und Passwort:Hertz", Toast.LENGTH_LONG);
                     toastAusgabe.show();
