@@ -24,7 +24,6 @@ public class RequestHandler {
     //StringBuilder object to store the message retrieved from the server
     StringBuilder sb = new StringBuilder();
     try {
-        // TODO: check connection
         //Initializing Url
         url = new URL(requestURL);
         //Creating an httmlurl connection
