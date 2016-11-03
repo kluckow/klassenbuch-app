@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -17,18 +19,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class PupilListActivity extends AppCompatActivity {
 
-    private ArrayList<String> schuelerliste = new ArrayList<>();
-    private ListView listViewSchueler;
-    private Spinner spinner;
+    private ArrayAdapter<String> klassenAdapter;
     private ArrayAdapter<String> schuelerAdapter;
 
-    private List<String> klassenliste = new ArrayList<>();
-    private ArrayAdapter<String> klassenAdapter;
+    private List<Schueler> schuelerliste = new ArrayList<>();
+    private List<String> klassenNamen = new ArrayList<>();
+
+    private ListView listViewSchueler;
+    private Spinner spinner;
+
+    private HashMap<String, ArrayList<Schueler>> klassenListe = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,24 @@ public class PupilListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pupil_list_activity);
 
         spinner = (Spinner) findViewById(R.id.spinner_class);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int pos, long arg3) {
+                String selectedKlasse = spinner.getItemAtPosition(pos).toString();
+                schuelerliste.clear();
+                Collection<Schueler> collection = new ArrayList<Schueler>(klassenListe.get(selectedKlasse));
+                schuelerliste.addAll(collection);
+                schuelerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                Log.e("test", "test");
+                // TODO Auto-generated method stub
+            }
+        });
         listViewSchueler = (ListView) findViewById(R.id.pupil_list);
         getJSON();
     }
@@ -93,10 +118,11 @@ public class PupilListActivity extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
 
-                schuelerAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, schuelerliste);
-                listViewSchueler.setAdapter(schuelerAdapter);
-                klassenAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, klassenliste);
+                klassenAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, klassenNamen);
                 spinner.setAdapter(klassenAdapter);
+                schuelerAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, schuelerliste);
+                schuelerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                listViewSchueler.setAdapter(schuelerAdapter);
 
                 loading.dismiss();
             }
@@ -104,10 +130,11 @@ public class PupilListActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(Void... params) {
                 RequestHandler rh = new RequestHandler();
-                String s = rh.sendGetRequest("http://hhbk.bplaced.net/alleSchueler_v3.php");
-
+                String result = rh.sendGetRequest("http://hhbk.bplaced.net/alleSchueler_v3.php");
+                // TODO: remove logging
+                Log.e("debug: ", result);
                 try {
-                    JSONObject schueler = new JSONObject(s);
+                    JSONObject schueler = new JSONObject(result);
                     JSONArray schuelerArray = schueler.getJSONArray(Config.TAG_JSON_ARRAY);
                     for (int i = 0; i <= schuelerArray.length(); i++) {
                         JSONObject schuelerobjekt = schuelerArray.getJSONObject(i);
@@ -118,18 +145,23 @@ public class PupilListActivity extends AppCompatActivity {
                         neuerStudent.setLastname(schuelerobjekt.getString(Config.TAG_NAME));
                         neuerStudent.setKlasse(schuelerobjekt.getString(Config.TAG_KLASSE));
 
-                        if (klassenliste.contains(neuerStudent.getKlasse())) {
-                            // do nothing
+                        ArrayList<Schueler> tmpSchuelerList = new ArrayList<>();
+
+                        if (klassenNamen.contains(neuerStudent.getKlasse())) {
+                            tmpSchuelerList.addAll(klassenListe.get(neuerStudent.getKlasse()));
+                            tmpSchuelerList.add(neuerStudent);
+                            klassenListe.put(neuerStudent.getKlasse(), tmpSchuelerList);
                         } else {
-                            klassenliste.add(neuerStudent.getKlasse());
+                            tmpSchuelerList.add(neuerStudent);
+                            klassenListe.put(neuerStudent.getKlasse(), tmpSchuelerList);
+                            klassenNamen.add(neuerStudent.getKlasse());
                         }
-                        schuelerliste.add(neuerStudent.toString());
                     }
 
                 } catch (JSONException e) {
                     Log.e("json exception", "Could not load schueler liste!");
                 }
-                return s;
+                return result;
             }
         }
         GetJSON gj = new GetJSON();

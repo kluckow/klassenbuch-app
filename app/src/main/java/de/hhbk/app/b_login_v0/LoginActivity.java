@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPasswort);
 
         // insert credentials for testing
-        editTextUsername.setText("");
-        editTextPassword.setText("");
+        editTextUsername.setText("dres");
+        editTextPassword.setText("geheim");
 
         buttonLogin = (Button)findViewById(R.id.buttonLogin);
         buttonLogin.setOnClickListener(new ClickListener());
