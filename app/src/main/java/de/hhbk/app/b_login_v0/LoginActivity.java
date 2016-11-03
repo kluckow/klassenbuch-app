@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextUsername;
     private EditText editTextPassword;
     private Button buttonLogin;
-    private static final String URL_DB_VERBINDUNG = "http://hhbk.bplaced.net/login.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -147,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             try {
-                URL _url = new URL(URL_DB_VERBINDUNG);
+                URL _url = new URL(Config.URL_DB_VERBINDUNG);
                 connection = (HttpURLConnection) _url.openConnection();
                 // Verbindung konfigurieren
                 connection.setDoInput(true);

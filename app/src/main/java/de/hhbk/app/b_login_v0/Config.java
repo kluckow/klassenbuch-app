@@ -9,6 +9,7 @@ public class Config {
     //PHP Skript Addressen
     //hhbk.bplaced.net
     public static final String URL_ALLE_SCHUELER = "http://hhbk.bplaced.net/alleSchueler_v3.php";
+    public static final String URL_DB_VERBINDUNG = "http://hhbk.bplaced.net/login.php";
 
     //PHP Skript Schluesselfelder
     public static final String KEY_SCHUELER_DATUM    = "datum";
