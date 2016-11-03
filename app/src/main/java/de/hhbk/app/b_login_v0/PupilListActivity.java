@@ -24,11 +24,9 @@ public class PupilListActivity extends AppCompatActivity {
 
     private ArrayList<String> schuelerliste = new ArrayList<>();
     private ListView listViewSchueler;
-    private Spinner spinnerClass;
+    private Spinner spinner;
     private ArrayAdapter<String> schuelerAdapter;
-    private String klasse;
 
-    private List<Pupil> pupilList = new ArrayList<>();
     private List<String> klassenliste = new ArrayList<>();
     private ArrayAdapter<String> klassenAdapter;
 
@@ -37,7 +35,7 @@ public class PupilListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pupil_list_activity);
 
-        spinnerClass = (Spinner) findViewById(R.id.spinner_class);
+        spinner = (Spinner) findViewById(R.id.spinner_class);
         listViewSchueler = (ListView) findViewById(R.id.pupil_list);
         getJSON();
     }
@@ -98,7 +96,7 @@ public class PupilListActivity extends AppCompatActivity {
                 schuelerAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, schuelerliste);
                 listViewSchueler.setAdapter(schuelerAdapter);
                 klassenAdapter = new ArrayAdapter(PupilListActivity.this, R.layout.activity_pupil_item, klassenliste);
-                spinnerClass.setAdapter(klassenAdapter);
+                spinner.setAdapter(klassenAdapter);
 
                 loading.dismiss();
             }
@@ -114,22 +112,22 @@ public class PupilListActivity extends AppCompatActivity {
                     for (int i = 0; i <= schuelerArray.length(); i++) {
                         JSONObject schuelerobjekt = schuelerArray.getJSONObject(i);
 
-                        Pupil neuerSchueler = new Pupil();
-                        neuerSchueler.setId(schuelerobjekt.getInt(Config.TAG_SID));
-                        neuerSchueler.setFirstname(schuelerobjekt.getString(Config.TAG_VORNAME));
-                        neuerSchueler.setLastname(schuelerobjekt.getString(Config.TAG_NAME));
-                        neuerSchueler.setKlasse(schuelerobjekt.getString(Config.TAG_KLASSE));
+                        Schueler neuerStudent = new Schueler();
+                        neuerStudent.setId(schuelerobjekt.getInt(Config.TAG_SID));
+                        neuerStudent.setFirstname(schuelerobjekt.getString(Config.TAG_VORNAME));
+                        neuerStudent.setLastname(schuelerobjekt.getString(Config.TAG_NAME));
+                        neuerStudent.setKlasse(schuelerobjekt.getString(Config.TAG_KLASSE));
 
-                        if (!klassenliste.isEmpty() || klassenliste.contains(neuerSchueler.getKlasse())) {
+                        if (!klassenliste.isEmpty() || klassenliste.contains(neuerStudent.getKlasse())) {
                             // do nothing
                         } else {
-                            klassenliste.add(neuerSchueler.getKlasse());
+                            klassenliste.add(neuerStudent.getKlasse());
                         }
-                        schuelerliste.add(neuerSchueler.toString());
+                        schuelerliste.add(neuerStudent.toString());
                     }
 
                 } catch (JSONException e) {
-                    Log.e("json exception", "Could not load schüler liste!");
+                    Log.e("json exception", "Could not load schueler liste!");
                 }
                 return s;
             }

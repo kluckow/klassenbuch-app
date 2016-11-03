@@ -4,17 +4,17 @@ package de.hhbk.app.b_login_v0;
  * Created by Markus on 27.10.2016.
  */
 
-public class Pupil {
+public class Schueler {
     private int id;
     private String lastname;
     private String firstname;
     private String klasse;
 
-    public Pupil() {
+    public Schueler() {
 
     }
 
-    public Pupil(int id, String lastname, String firstname, String klasse) {
+    public Schueler(int id, String lastname, String firstname, String klasse) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;

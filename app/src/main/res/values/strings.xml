@@ -3,8 +3,10 @@
 
     <!-- Options Menu -->
     <string name="action_settings">Settings</string>
+    <!-- Options Menu - only Home Activity -->
+    <string name="show_pupil_list">Schülerliste anzeigen</string>
 
-    <!-- Main Activity -->
+    <!-- Login Activity -->
     <string name="txt_Loginseite">Um das Klassenbuch zu benutzen ist ein Loggin erfoderlich</string>
     <string name="login_titel">Log In</string>
     <string name="lbl_Benutzername">Benutzername:</string>
@@ -12,10 +14,9 @@
     <string name="btn_login">ok</string>
     <string name="checkbox_local_label">Lokale Anmeldung</string>
 
-    <!-- Logged In Activity -->
+    <!-- Home Activity -->
     <string name="home_title">Home</string>
-    <string name="show_pupil_list">Schülerliste anzeigen</string>
 
-    <!-- Pupil List Activity -->
+    <!-- Schueler List Activity -->
     <string name="pupil_list_title">Klasse:</string>
 </resources>

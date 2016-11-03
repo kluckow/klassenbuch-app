@@ -34,7 +34,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (localLogin){
                 if (username.equals("Heinrich") && passwort.equals("Hertz")) {
-                    Intent mainIntent = new Intent(v.getContext(), LoggedInActivity.class);
+                    Intent mainIntent = new Intent(v.getContext(), HomeActivity.class);
                     mainIntent.putExtra("username", username);
                     startActivity(mainIntent);
                 } else {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     toastAusgabe.show();
                 }
             } else {
-                new LoginService(getApplicationContext(),MainActivity.this).execute(username, passwort);
+                new LoginService(getApplicationContext(),LoginActivity.this).execute(username, passwort);
             }
 
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(LoginActivity.this);
             pDialog.setMessage("Aufbau der HTTP Verbindung...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
@@ -235,14 +235,14 @@ public class MainActivity extends AppCompatActivity {
             if (success == 1) {
                 String username = params[0];
                 String password = params[1];
-                Intent mainIntent = new Intent(applicationContext, LoggedInActivity.class);
+                Intent mainIntent = new Intent(applicationContext, HomeActivity.class);
                 mainIntent.putExtra("username", username);
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 applicationContext.startActivity(mainIntent);
             }
             try {
                 if(json!=null && json.has(TAG_MESSAGE)){
-                    Toast.makeText(MainActivity.this, json.getString(TAG_MESSAGE),
+                    Toast.makeText(LoginActivity.this, json.getString(TAG_MESSAGE),
                     Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
