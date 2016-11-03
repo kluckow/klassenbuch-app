@@ -1,26 +1,11 @@
 package de.hhbk.app.b_login_v0;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 public class LoggedInActivity extends AppCompatActivity {
@@ -52,10 +37,6 @@ public class LoggedInActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         switch (id) {
             case R.id.action_settings:
                 // do nothing for now
@@ -66,8 +47,6 @@ public class LoggedInActivity extends AppCompatActivity {
                 break;
         }
         return true;
-
-//        return super.onOptionsItemSelected(item);
     }
 
 }
