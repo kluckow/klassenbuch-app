@@ -65,7 +65,7 @@ public class SchuelerlisteActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int pos, long arg3) {
-
+                // TODO: hier muss immer ein request mit der ausgewählten klasse stattfinden
                 selectedKlasse = spinner.getItemAtPosition(pos).toString();
                 schuelerliste.clear();
                 Collection<Schueler> collection = new ArrayList<>(klassenListe.get(selectedKlasse));
